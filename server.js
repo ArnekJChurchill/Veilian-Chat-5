@@ -2,10 +2,14 @@ const express = require('express');
 const Pusher = require('pusher');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+
+// Serve static frontend
+app.use(express.static(path.join(__dirname, 'public')));
 
 const pusher = new Pusher({
   appId: "2080160",
@@ -21,6 +25,11 @@ app.post('/message', (req, res) => {
 
   pusher.trigger("Veilian-CHAT-Z8", "new-message", { displayName, message });
   res.status(200).send("Message sent");
+});
+
+// Default route
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
