@@ -5,10 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const displayNameInput = document.getElementById('displayName');
   const sendBtn = document.getElementById('sendBtn');
 
-  if (!chatMessages || !chatBox || !chatInput || !displayNameInput || !sendBtn) {
-    console.error('[CLIENT] Missing required DOM elements!');
-    return;
-  }
+  if (!chatMessages || !chatBox || !chatInput || !displayNameInput || !sendBtn) return;
 
   // ===== Pusher Setup =====
   Pusher.logToConsole = true;
@@ -28,13 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = chatInput.value.trim();
     if (!message) return;
 
-    fetch('https://your-backend-url/message', { // <-- REPLACE with your Render backend URL
+    fetch('/message', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ displayName: name, message })
     })
     .then(() => { chatInput.value = ''; })
-    .catch(err => console.error('[CLIENT] fetch error:', err));
+    .catch(err => console.error(err));
   }
 
   sendBtn.addEventListener('click', sendMessage);
