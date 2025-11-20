@@ -27,10 +27,11 @@ app.post('/message', (req, res) => {
   res.status(200).send("Message sent");
 });
 
-// Default route
+// Catch-all route to serve index.html
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Veilian Chat server running on port ${PORT}`));
+
